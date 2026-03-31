@@ -39,8 +39,6 @@ class ModelTests(TestCase):
 
 
 class ProductListViewTests(TestCase):
-    """Test the product_list view — response, search, category, and tag filtering."""
-
     def setUp(self):
         self.client = Client()
         self.url = reverse('product_list')
@@ -145,9 +143,7 @@ class ProductListViewTests(TestCase):
         products = list(response.context['products'])
         self.assertEqual(products.count(self.p3), 1)
 
-    # ------------------------------------------------------------------
     # Combined filters
-    # ------------------------------------------------------------------
 
     def test_search_and_category_combined(self):
         response = self.client.get(self.url, {
