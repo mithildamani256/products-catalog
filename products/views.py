@@ -13,12 +13,12 @@ def product_list(request):
     Display a filterable, searchable list of all products.
 
     Supported GET parameters:
-        search   (str)       — case-insensitive substring match on name/description
+        search   (str)       — case-insensitive substring match on product name/description
         category (str)       — Category primary key to filter by
         tags     (list[str]) — one or more Tag primary keys; all must match (AND)
     """
 
-    # Join category and prefetch tags up-front to avoid the issue  of N+1 queries in the template
+    # Join category and prefetch tags up-front to avoid N+1 queries in the template
     products = Product.objects.select_related('category').prefetch_related('tags')
 
     categories = Category.objects.order_by('name')
@@ -31,15 +31,15 @@ def product_list(request):
             Q(name__icontains=search_query) | Q(description__icontains=search_query)
         )
 
-    # Category filter — guard against non-numeric input before hitting the ORM
+    # Category filter — just a guard against non-numeric input before hitting the ORM
     category_id = request.GET.get('category', '').strip()
     if category_id.isdigit():
         products = products.filter(category_id=category_id)
     else:
         category_id = ''
 
-    # Tags filter — sanitize first, then chain one .filter() per tag so that
-    # selecting two tags returns products that have BOTH (AND logic, not OR).
+    # Tags filter - sanitize first and then basically chain one .filter() per tag so that
+    # selecting two tags returns products that have BOTH (AND logic).
     # A final .distinct() prevents duplicate rows caused by the M2M joins.
     selected_tags = [int(t) for t in request.GET.getlist('tags') if t.isdigit()]
     for tag_id in selected_tags:
@@ -47,7 +47,6 @@ def product_list(request):
     if selected_tags:
         products = products.distinct()
 
-    # Evaluate once so the template iteration and the count share the same result set
     product_list_evaluated = list(products)
 
     # Annotate each category so the template avoids a string == comparison
