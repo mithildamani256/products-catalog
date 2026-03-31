@@ -89,33 +89,33 @@ You can populate the database in either of these ways:
 
 ## Troubleshooting
 
-**`ModuleNotFoundError: No module named 'django'`**
+- **`ModuleNotFoundError: No module named 'django'`**
 The virtual environment is not active. Django is installed inside `venv/`, not globally. Python can only find it when the environment is activated.
 ```bash
 source venv/bin/activate   # macOS / Linux
 venv\Scripts\activate      # Windows
 ```
 
-**`OperationalError: no such table`**
+- **`OperationalError: no such table`**
 The database tables haven't been created yet. Migrations build the schema from the model definitions so without running them, the tables simply don't exist.
 ```bash
 python manage.py migrate
 ```
 
-**Admin panel shows no products**
+- **Admin panel shows no products**
 The database is empty. Either run the management command to seed it, or add records manually through the admin.
 ```bash
 python manage.py populate_sample_data
 ```
 Then log in at `/admin/` with the superuser you created. If you haven't created one yet, run `python manage.py createsuperuser` first.
 
-**Port already in use**
+- **Port already in use**
 Another process (possibly a previous server instance) is already listening on port 8000. Run on a different port instead.
 ```bash
 python manage.py runserver 8080
 ```
 
-**Search returns no results after typing**
+- **Search returns no results after typing**
 The form requires clicking **Search** to submit as there is no live/auto-filter. Make sure you clicked the green Search button after typing your query.
 
 ## 🤖 AI Disclosure
