@@ -54,23 +54,6 @@ python manage.py runserver
 
 Open **http://127.0.0.1:8000/** in your browser.
 
-
-## What Each Setup Step Does
-
-Understanding what happens under the hood makes debugging much easier if something goes wrong.
-
-| Step | What it does |
-|------|-------------|
-| `python -m venv venv` | Creates an isolated Python environment so project dependencies don't conflict with other projects on your machine |
-| `pip install -r requirements.txt` | Installs Django 4.2.11 into that isolated environment |
-| `python manage.py migrate` | Reads all migration files and creates the SQLite database tables (`Category`, `Tag`, `Product`, and Django's built-in auth/session tables) |
-| `python manage.py populate_sample_data` | Runs a custom management command that wipes any existing catalog data and inserts 5 categories, 10 tags, and 21 products so the app is demo-ready immediately |
-| `python manage.py createsuperuser` | Creates an admin account stored in the database — prompts for username, email, and password; survives server restarts |
-| `python manage.py runserver` | Starts a local development server at `http://127.0.0.1:8000/` |
-
-> **Note:** The superuser account persists in `db.sqlite3` across server restarts and reboots. The only things that would remove it are deleting `db.sqlite3` or running `python manage.py flush`.
-
-
 ## Usage
 
 | URL | Description |
@@ -142,7 +125,7 @@ venv\Scripts\activate      # Windows
 ```
 
 **`OperationalError: no such table`**
-The database tables haven't been created yet. Migrations build the schema from the model definitions — without running them, the tables simply don't exist.
+The database tables haven't been created yet. Migrations build the schema from the model definitions so without running them, the tables simply don't exist.
 ```bash
 python manage.py migrate
 ```
@@ -161,7 +144,7 @@ python manage.py runserver 8080
 ```
 
 **Search returns no results after typing**
-The form requires clicking **Search** to submit — there is no live/auto-filter. Make sure you clicked the green Search button after typing your query.
+The form requires clicking **Search** to submit as there is no live/auto-filter. Make sure you clicked the green Search button after typing your query.
 
 ## 🤖 AI Disclosure
 
