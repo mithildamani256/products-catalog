@@ -38,11 +38,14 @@ def product_list(request):
     else:
         category_id = ''
 
-    # Tags filter , please sanitize first, then apply as a single IN clause with distinct()
-    # to avoid duplicate rows from multiple JOIN passes on the same M2M table
+    # Tags filter — sanitize first, then chain one .filter() per tag so that
+    # selecting two tags returns products that have BOTH (AND logic, not OR).
+    # A final .distinct() prevents duplicate rows caused by the M2M joins.
     selected_tags = [int(t) for t in request.GET.getlist('tags') if t.isdigit()]
+    for tag_id in selected_tags:
+        products = products.filter(tags__id=tag_id)
     if selected_tags:
-        products = products.filter(tags__id__in=selected_tags).distinct()
+        products = products.distinct()
 
     # Evaluate once so the template iteration and the count share the same result set
     product_list_evaluated = list(products)
