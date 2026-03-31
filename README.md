@@ -17,7 +17,7 @@ A clean, fully functional Django product catalog with search, category filtering
 
 ### 1. Clone / enter the project directory
 ```bash
-cd product-catalog
+cd products-catalog
 ```
 
 ### 2. Create and activate a virtual environment
