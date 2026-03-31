@@ -114,7 +114,7 @@ class ProductListViewTests(TestCase):
         self.assertEqual(response.context['result_count'], 2)
         self.assertNotIn(self.p3, response.context['products'])
 
-    def test_invalid_category_returns_all(self):
+    def test_invalid_category_returns_all_products(self):
         # A non-numeric category value should be ignored and basically return all products
         response = self.client.get(self.url, {'category': 'abc'})
         self.assertEqual(response.context['result_count'], 3)
@@ -127,7 +127,7 @@ class ProductListViewTests(TestCase):
         self.assertEqual(response.context['result_count'], 2)
         self.assertNotIn(self.p2, response.context['products'])
 
-    def test_filter_by_multiple_tags_is_and_logic(self):
+    def test_filter_by_multiple_tags(self):
         # Only p3 has both 'New' AND 'Sale'
         response = self.client.get(self.url, {
             'tags': [self.tag_new.id, self.tag_sale.id]
