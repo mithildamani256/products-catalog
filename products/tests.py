@@ -78,9 +78,7 @@ class ProductListViewTests(TestCase):
         )
         self.p3.tags.add(self.tag_new, self.tag_sale)
 
-    # ------------------------------------------------------------------
     # Basic response
-    # ------------------------------------------------------------------
 
     def test_page_loads(self):
         response = self.client.get(self.url)
@@ -90,9 +88,7 @@ class ProductListViewTests(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.context['result_count'], 3)
 
-    # ------------------------------------------------------------------
     # Search
-    # ------------------------------------------------------------------
 
     def test_search_matches_name(self):
         response = self.client.get(self.url, {'search': 'headphones'})
@@ -113,9 +109,7 @@ class ProductListViewTests(TestCase):
         response = self.client.get(self.url, {'search': 'nonexistent'})
         self.assertEqual(response.context['result_count'], 0)
 
-    # ------------------------------------------------------------------
     # Category filter
-    # ------------------------------------------------------------------
 
     def test_filter_by_category(self):
         response = self.client.get(self.url, {'category': self.electronics.id})
@@ -123,13 +117,11 @@ class ProductListViewTests(TestCase):
         self.assertNotIn(self.p3, response.context['products'])
 
     def test_invalid_category_returns_all(self):
-        # A non-numeric category value should be ignored, returning all products
+        # A non-numeric category value should be ignored and basically return all products
         response = self.client.get(self.url, {'category': 'abc'})
         self.assertEqual(response.context['result_count'], 3)
 
-    # ------------------------------------------------------------------
     # Tag filter
-    # ------------------------------------------------------------------
 
     def test_filter_by_single_tag(self):
         response = self.client.get(self.url, {'tags': self.tag_new.id})
@@ -146,7 +138,7 @@ class ProductListViewTests(TestCase):
         self.assertIn(self.p3, response.context['products'])
 
     def test_multiple_tags_no_duplicate_products(self):
-        # p3 has two matching tags — it must appear exactly once
+        # p3 has two matching tags but it must appear exactly once
         response = self.client.get(self.url, {
             'tags': [self.tag_new.id, self.tag_sale.id]
         })
@@ -166,7 +158,7 @@ class ProductListViewTests(TestCase):
         self.assertIn(self.p2, response.context['products'])
 
     def test_category_and_tag_combined(self):
-        # Electronics + Sale tag → only p2
+        # Electronics + Sale tag is only in p2
         response = self.client.get(self.url, {
             'category': self.electronics.id,
             'tags': self.tag_sale.id,
