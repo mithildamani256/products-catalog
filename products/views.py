@@ -31,7 +31,7 @@ def product_list(request):
             Q(name__icontains=search_query) | Q(description__icontains=search_query)
         )
 
-    # Category filter — just a guard against non-numeric input before hitting the ORM
+    # Apply category filter only if a valid numeric category_id is provided
     category_id = request.GET.get('category', '').strip()
     if category_id.isdigit():
         products = products.filter(category_id=category_id)
