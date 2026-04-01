@@ -42,9 +42,8 @@ class Command(BaseCommand):
             categories[name] = cat
             self.stdout.write(f'Created category: {name}')
 
-        # ------------------------------------------------------------------ #
-        # 3. Create Tags                                                        #
-        # ------------------------------------------------------------------ #
+        # 3. Create Tags 
+        
         tag_names = [
             'New', 'Sale', 'Popular', 'Eco-friendly', 'Premium',
             'Budget-Friendly', 'Limited Stock', 'Best Seller',
