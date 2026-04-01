@@ -65,7 +65,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # so basically many products belong to one category
+    # Each product belongs to one category; a category can have many products
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
