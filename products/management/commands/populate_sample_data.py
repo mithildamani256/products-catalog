@@ -23,9 +23,12 @@ class Command(BaseCommand):
         """Execute the command: clear then re-seed all catalog data."""
 
         # 1. Wipe existing data
-        Product.objects.all().delete()
+        # Clear M2M relationships first so FK constraints are satisfied when
+        # Tag rows are deleted, then cascade-delete products via Category.
+        for product in Product.objects.all():
+            product.tags.clear()
+        Category.objects.all().delete()  # cascades to Product via on_delete=CASCADE
         Tag.objects.all().delete()
-        Category.objects.all().delete()
 
         # 2. Create Categories
         category_data = [
