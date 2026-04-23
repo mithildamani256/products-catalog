@@ -18,9 +18,23 @@ class Command(BaseCommand):
     """Populate the database with sample catalog data."""
 
     help = 'Clear existing data and populate the database with sample products.'
+    
+    # def add_arguments(self, parser):
+    #     parser.add_argument(
+    #         '--dryrun',
+    #         action='store_true',
+    #         help='Print what would be created without actually writing to the DB'
+    #     )
 
     def handle(self, *args, **options):
         """Execute the command: clear then re-seed all catalog data."""
+
+        # if options['dryrun']:
+        #     self.stdout.write('Dry run mode — nothing will be saved')
+        #     self.stdout.write('Would create 5 categories')
+        #     self.stdout.write('Would create 10 tags')
+        #     self.stdout.write('Would create 21 products')
+        #     return
 
         # 1. Wipe existing data
         # Clear M2M relationships first so FK constraints are satisfied when
